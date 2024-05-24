@@ -1,3 +1,13 @@
+<?php
+require_once "conn.php";
+
+$sql = "SELECT * FROM contacts";
+$result = $baglanti->query($sql);
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -31,9 +41,6 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="addcontact.php">Yeni Kişi Ekle</a></li>
-                            <li><a class="dropdown-item" href="#">Mevcut Kullanıcı Düzenleme</a></li>
-                            <li><a class="dropdown-item" href="#">Mevcut Kişiyi Silme</a></li>
-                            <li><a class="dropdown-item" href="#">Mevcut Kişiyi Arama</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -49,42 +56,30 @@
 
     <div class="content d-flex justify-content-center flex-grow-1 py-5">
         <div class="contacts-holder d-flex flex-column w-50 gap-2">
-            <div class="contact-card" data-id="1" data-group="2">
-                <!-- <img src="img/defaultProfilePhoto.jpg" alt="profile-photo"> -->
-                <div style="background-color: salmon;border-radius: 50%; width: 40px; height: 40px;"> </div>
-                <div class="contact-info">
-                    <div>
-                        <span class="first-name"><strong>Eren</strong></span>
-                        <span class="last-name"><strong>Baş</strong></span>
-                    </div>
-                    <span class="phone">555 555 5555</span>
-                </div>
-                <div class="group-tag-holder">
-                    <span>İş</span>
-                </div>
-                <div class="buttons">
-                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img src="img/pencil-square.svg"></button>
-                    <button class="delete-button"><img src="img/trash.svg"></button>
-                </div>
-            </div>
-            <div class="contact-card" data-id="1" data-group="2">
-                <!-- <img src="img/defaultProfilePhoto.jpg" alt="profile-photo"> -->
-                <div style="background-color: salmon;border-radius: 50%; width: 40px; height: 40px;"> </div>
-                <div class="contact-info">
-                    <div>
-                        <span class="first-name"><strong>Eren</strong></span>
-                        <span class="last-name"><strong>Baş</strong></span>
-                    </div>
-                    <span class="phone">555 555 5555</span>
-                </div>
-                <div class="group-tag-holder">
-                    <span>İş</span>
-                </div>
-                <div class="buttons">
-                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img src="img/pencil-square.svg"></button>
-                    <button class="delete-button"><img src="img/trash.svg"></button>
-                </div>
-            </div>
+            <?php
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="contact-card" data-id="' . $row["contact_id"] . '" data-group="' . $row["group_id"] . '">
+                        <img src="' . $row["image_path"] . '" alt="profile-photo">
+                        <div class="contact-info">
+                            <div>
+                                <span class="first-name"><strong>' . $row["name"] . '</strong></span>
+                                <span class="last-name"><strong>' . $row["surname"] . '</strong></span>
+                            </div>
+                            <span class="phone">' . $row["phone"] . '</span>
+                        </div>
+                        <!--<div class="group-tag-holder">
+                            <span>İş</span>
+                        </div>-->
+                        <div class="buttons">
+                            <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img src="img/pencil-square.svg"></button>
+                            <button class="delete-button"><img src="img/trash.svg"></button>
+                        </div>
+                  </div>';
+                }
+            }
+            ?>
         </div>
     </div>
 
