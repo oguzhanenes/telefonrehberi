@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
     <script src="js/contact.js" defer></script>
     <title>Telefon Rehberi</title>
@@ -28,12 +26,11 @@
                         <a href="#" class="nav-link">Kayıtlı Kişiler</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Kişi İşlemleri
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="adduser.html">Yeni Kişi Ekle</a></li>
+                            <li><a class="dropdown-item" href="addcontact.php">Yeni Kişi Ekle</a></li>
                             <li><a class="dropdown-item" href="#">Mevcut Kullanıcı Düzenleme</a></li>
                             <li><a class="dropdown-item" href="#">Mevcut Kişiyi Silme</a></li>
                             <li><a class="dropdown-item" href="#">Mevcut Kişiyi Arama</a></li>
@@ -51,7 +48,7 @@
     </nav>
 
     <div class="content d-flex justify-content-center flex-grow-1 py-5">
-        <div class="contacts-holder d-flex flex-column w-50">
+        <div class="contacts-holder d-flex flex-column w-50 gap-2">
             <div class="contact-card" data-id="1" data-group="2">
                 <!-- <img src="img/defaultProfilePhoto.jpg" alt="profile-photo"> -->
                 <div style="background-color: salmon;border-radius: 50%; width: 40px; height: 40px;"> </div>
@@ -66,8 +63,25 @@
                     <span>İş</span>
                 </div>
                 <div class="buttons">
-                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img
-                            src="img/pencil-square.svg"></button>
+                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img src="img/pencil-square.svg"></button>
+                    <button class="delete-button"><img src="img/trash.svg"></button>
+                </div>
+            </div>
+            <div class="contact-card" data-id="1" data-group="2">
+                <!-- <img src="img/defaultProfilePhoto.jpg" alt="profile-photo"> -->
+                <div style="background-color: salmon;border-radius: 50%; width: 40px; height: 40px;"> </div>
+                <div class="contact-info">
+                    <div>
+                        <span class="first-name"><strong>Eren</strong></span>
+                        <span class="last-name"><strong>Baş</strong></span>
+                    </div>
+                    <span class="phone">555 555 5555</span>
+                </div>
+                <div class="group-tag-holder">
+                    <span>İş</span>
+                </div>
+                <div class="buttons">
+                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal"><img src="img/pencil-square.svg"></button>
                     <button class="delete-button"><img src="img/trash.svg"></button>
                 </div>
             </div>
@@ -98,8 +112,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="groupInput" class="form-label">Grup</label>
-                            <select class="form-select" aria-label="Default select example" name="group"
-                                id="groupInput">
+                            <select class="form-select" aria-label="Default select example" name="group" id="groupInput">
                                 <option value="0">Yok</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
