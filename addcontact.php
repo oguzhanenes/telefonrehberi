@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
   <title>Telefon Rehberi</title>
 </head>
 
 <body class="h-100 d-flex flex-column">
-  <nav class="navbar navbar-expand-md navbar-dark " style="background-color: #003285;">
+  <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #003285;">
     <div class="container">
       <a href="index.html" class="navbar-brand">
         <i class="fa-solid fa-phone"></i>
@@ -22,19 +22,23 @@
       <div id="mobile" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto ms-2">
           <li class="nav-item ms-2">
-            <a href="index.html" class="nav-link">Anasayfa</a>
+            <a href="contact.php" class="nav-link">Kayıtlı Kişiler</a>
           </li>
-          <li class="nav-item ms-2">
-            <a href="#" class="nav-link">Hakkımızda</a>
-          </li>
-          <li class="nav-item ms-2">
-            <a href="#" class="nav-link">İletişim</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Kişi İşlemleri
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="addcontact.php">Yeni Kişi Ekle</a></li>
+            </ul>
           </li>
         </ul>
-        <form class="d-flex">
-          <a href="login.html" type="button" class="btn btn-outline-light btn-md" type="submit">Giriş</a>
-          <a href="register.html" type="button" class="btn btn-light btn-md ms-2" type="submit">Kayıt Ol</a>
-        </form>
+        <div class="profile">
+          <span class="name">Ad Soyad</span>
+          <button class="exit-button">
+            <img src="img/box-arrow-right.svg">
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -44,7 +48,7 @@
     <section>
       <h1 class="display-4 fw-bold text-center mt-5">Yeni Kişi Ekle</h1>
       <div class="pt-5 mt-2 px-4 border-bottom">
-        <div class="col-lg-6 mx-auto mb-4">
+        <div class="col-lg-5 mx-auto mb-4">
           <form class="row g-3" action="handleAddContact.php" method="post" enctype="multipart/form-data">
             <div class="col-12">
               <label for="name" class="form-label">İsim *</label>
@@ -56,7 +60,7 @@
             </div>
             <div class="col-12">
               <label for="phone" class="form-label">Telefon *</label>
-              <input type="tel" class="form-control" id="phone" name="phone" minlength="10" required>
+              <input type="tel" class="form-control" id="phone" name="phone" minlength="10" maxlength="10" pattern="[0-9]*" placeholder=" Başa 0 koymayınız" required>
             </div>
             <div class="col-12">
               <label for="inputEmail" class="form-label">E-posta</label>
@@ -93,7 +97,7 @@
   </main>
 
 
-  <footer class="py-2 bg-dark text-white mt-auto">
+  <footer class="py-1 bg-dark text-white mt-auto">
     <div class="container text-center">
       <span>Bütün Hakları Saklıdır. @2024</span>
     </div>
