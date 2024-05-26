@@ -1,60 +1,81 @@
 <?php
 include 'conn.php';
 
-function addUserToDatabase($conn, $username, $name, $surname, $email, $password)
-{
-    // SQL INSERT sorgusunu hazırlayın
-    $sql = "INSERT INTO users (username, name, surname, email, password) VALUES ('$username', '$name', '$surname', '$email', '$password')";
+function isUsernameTaken($conn, $username) {
+    $sql = "SELECT * FROM users WHERE username='$username'";
+    $result = $conn->query($sql);
+    return $result->num_rows > 0;
+}
 
-    // Sorguyu çalıştırın
+function isEmailTaken($conn, $email) {
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $conn->query($sql);
+    return $result->num_rows > 0;
+}
+function isUsernameValid($username) {
+    // Kullanıcı adı sadece harf ve sayılardan oluşmalıdır
+    return preg_match('/^[a-zA-Z0-9]+$/', $username);
+}
+
+function addUserToDatabase($conn, $username, $name, $surname, $email, $password) {
+    if (!isUsernameValid($username)) {
+        return "Kullanıcı adı sadece harf ve sayılardan oluşabilir.";
+    }
+    if (isUsernameTaken($conn, $username)) {
+        return "Kullanıcı adı zaten alınmış.";
+    }
+
+    if (isEmailTaken($conn, $email)) {
+        return "E-posta adresi zaten kullanılıyor.";
+    }
+
+    $sql = "INSERT INTO users (username, name, surname, email, password) VALUES ('$username', '$name', '$surname', '$email', '$password')";
     if ($conn->query($sql) === TRUE) {
-        // echo "Yeni kayıt başarıyla oluşturuldu";
         header("Location: success_register.php");
-        exit(); // İşlemi sonlandır
+        exit();
     } else {
-        echo "Hata: " . $sql . "<br>" . $conn->error;
+        return "Hata: " . $sql . "<br>" . $conn->error;
     }
 }
 
 $usernameErr = $nameErr = $surnameErr = $emailErr = $passwordErr = "";
 $username = $name = $surname = $email = $password = "";
+$errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Formdan gelen verileri al
     $username = $_POST["username"];
     $name = $_POST["name"];
     $surname = $_POST["surname"];
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    // Kullanıcı adı kontrolü
     if (empty($username)) {
         $usernameErr = "Kullanıcı adı girin!";
+    } elseif (!isUsernameValid($username)) {
+        $usernameErr = "Kullanıcı adı sadece harf ve sayılardan oluşabilir.";
     }
 
-    // Ad kontrolü
     if (empty($name)) {
         $nameErr = "Ad girin!";
     }
 
-    // Soyad kontrolü
     if (empty($surname)) {
         $surnameErr = "Soyad girin!";
     }
 
-    // Email kontrolü
     if (empty($email)) {
         $emailErr = "Email girin!";
     }
 
-    // Şifre kontrolü
     if (empty($password)) {
         $passwordErr = "Şifre girin!";
     }
 
-    // Hata olmadığında kullanıcıyı veritabanına ekle
     if (empty($usernameErr) && empty($nameErr) && empty($surnameErr) && empty($emailErr) && empty($passwordErr)) {
-        addUserToDatabase($conn, $username, $name, $surname, $email, password_hash($password, PASSWORD_DEFAULT)); // $conn, $username, $name, $surname, $email, $password değişkenlerini kullanarak fonksiyonu çağırın
+        $result = addUserToDatabase($conn, $username, $name, $surname, $email, $password);
+        if (is_string($result)) {
+            $errors[] = $result;
+        }
     }
 }
 ?>
@@ -69,7 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <title>Telefon Rehberi</title>
 </head>
@@ -89,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <a href="index.html" class="nav-link">Anasayfa</a>
                     </li>
                     <li class="nav-item ms-2">
-                        <a href="#" class="nav-link">Hakkımızda</a>
+                        <a href="info.html" class="nav-link">Hakkımızda</a>
                     </li>
                     <li class="nav-item ms-2">
                         <a href="#" class="nav-link">İletişim</a>
@@ -110,6 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1 class="display-4 fw-bold text-center mt-5">Kayıt Ekranı</h1>
             <div class="pt-5 mt-2 px-4 border-bottom">
                 <div class="col-lg-6 mx-auto mb-4">
+                <?php if (!empty($errors)): ?>
+                        <div class="alert alert-danger">                            
+                                <?php foreach ($errors as $error): ?>
+                                    <?php echo $error; ?>
+                                <?php endforeach; ?>                            
+                        </div>
+                    <?php endif; ?>
                     <form action="register.php" method="post" class="row g-3">
                         <div class="col-12">
                             <label for="name" class="form-label">İsim</label>
@@ -138,7 +168,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary">Kayıt</button>
-                            <!-- <a href="login.html" type="submit" class="btn btn-primary">Kayıt</a> -->
                         </div>
                     </form>
                 </div>

@@ -43,7 +43,7 @@ if (isset($_POST["login"])) {
                             $_SESSION["user_id"] = $user_id;
                             $_SESSION["username"] = $username;
 
-                            header("Location: contact.php");
+                            header("Location: success_login.php");
                         } else {
                             $loginErr = "Parola hatalı";
                         }
