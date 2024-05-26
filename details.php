@@ -1,5 +1,5 @@
 <?php
-
+// Kullanici giris yapmadiysa logiin sayfasına yönlendir.
 session_start();
 if (empty($_SESSION["loggedIn"])) {
     header("location:login.php");
@@ -73,6 +73,11 @@ $conn->close();
     </nav>
 
     <div class="form d-flex flex-column gap-3 align-items-center col-lg-5 mx-auto mt-4 flex-grow-1">
+        <?php
+        if (!empty($_GET["message"])) {
+            echo "<div class='alert alert-danger col-lg-12' role='alert'>" . $_GET['message'] . "</div>";
+        }
+        ?>
         <img src=<?php echo $result['image_path'] ?>>
         <form class="row g-3" action="handleUpdateContact.php" method="post" enctype="multipart/form-data">
             <div>

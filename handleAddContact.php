@@ -11,7 +11,6 @@ if (!$_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 
-require_once "conn.php";
 $user_id = $_SESSION["user_id"];
 $name = $_POST["name"];
 $surname = $_POST["surname"];
@@ -22,10 +21,18 @@ $country = $_POST["country"];
 $city = $_POST["city"];
 $district = $_POST["district"];
 
-// if (empty($name) || empty($surnmae) || empty($phone)) {
-//     header("location:addcontact.php");
-//     exit();
-// }
+if (empty($name) || empty($surname) || empty($phone)) {
+    $error = "Zorunlu alanları doldurunuz";
+}
+
+if (!is_numeric($phone)) {
+    $error = "Telefon numarası harflerden oluşamaz";
+}
+
+if (isset($error)) {
+    header("location:addcontact.php?message=$imageError");
+    exit();
+}
 
 if (!empty($_FILES["image"]["name"])) {
     $target_dir = "uploads/";
@@ -36,35 +43,28 @@ if (!empty($_FILES["image"]["name"])) {
     if (getimagesize($_FILES["image"]["tmp_name"]) !== false) {
         $uploadOk = 1;
     } else {
-        $error = "File is not an image.";
-        header("location:contact.php?message=$error");
-        exit();
+        $imageError = "Bu bir resim dosyası değil";
         $uploadOk = 0;
     }
 
     if ($_FILES["image"]["size"] > 500000) {
-        $error = "Sorry, your file is too large.";
-        header("location:contact.php?message=$error");
-        exit();
+        $imageError = "Dosya boyutu çok büyük";
         $uploadOk = 0;
     }
 
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $error = "Sorry, only JPG, JPEG & PNG files are allowed.";
-        header("location:contact.php?message=$error");
-        exit();
+        $imageError = "Sadece JPEG, JPG ve PNG dosyaları kullanabilirsiniz";
         $uploadOk = 0;
     }
 
     if ($uploadOk == 0) {
-        $error = "Sorry, your file was not uploaded.";
-        header("location:contact.php?message=$error");
+        header("location:addcontact.php?message=$imageError");
         exit();
     } else {
 
         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $new_image_path)) {
-            $error = "Sorry, there was an error uploading your file.";
-            header("location:contact.php?message=$error");
+            $imageError = "Sorry, there was an error uploading your file.";
+            header("location:addcontact.php?message=$imageError");
             exit();
         }
     }
@@ -72,6 +72,7 @@ if (!empty($_FILES["image"]["name"])) {
     $new_image_path = "uploads/defaultProfilePhoto.jpg";
 }
 
+require_once "conn.php";
 
 $sql = "INSERT INTO contacts (user_id, name, surname, phone, email, address, city, district, country, image_path)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

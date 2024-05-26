@@ -51,6 +51,11 @@ if (empty($_SESSION["loggedIn"])) {
     <section>
       <h1 class="display-4 fw-bold text-center mt-5">Yeni Kişi Ekle</h1>
       <div class="pt-5 mt-2 px-4 border-bottom">
+        <?php
+        if (!empty($_GET["message"])) {
+          echo "<div class='alert alert-danger col-lg-5 mx-auto' role='alert'>" . $_GET['message'] . "</div>";
+        }
+        ?>
         <div class="col-lg-5 mx-auto mb-4">
           <form class="row g-3" action="handleAddContact.php" method="post" enctype="multipart/form-data">
             <div class="col-12">

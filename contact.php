@@ -59,8 +59,9 @@ $conn->close();
         </div>
     </nav>
 
-    <div class="content d-flex justify-content-center flex-grow-1 py-5">
-        <div class="contacts-holder d-flex flex-column w-50 gap-2">
+    <div class="content d-flex flex-column align-items-center gap-4 flex-grow-1 py-5">
+        <h3 class="w-50">Kişiler</h3>
+        <div class="contacts-holder d-flex flex-column w-50">
             <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {

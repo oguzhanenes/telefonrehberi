@@ -1,10 +1,14 @@
 :root {
-    --background-color: whitesmoke;
+    --background-color: white;
     --contact-card-background: white;
 }
 
 body {
     height: 100vh;
+}
+
+hr {
+    margin: 0;
 }
 
 /* index */
@@ -21,11 +25,9 @@ body {
 
 /* hakkımızda */
 
-
 /* iletişim */
 
 /* login */
-
 
 /* register */
 .profile {
@@ -56,12 +58,16 @@ body {
     gap: 20px;
 
     width: 100%;
-    height: 70px;
+    height: 80px;
     padding: 0 20px 0 20px;
-    border-radius: 6px;
+    border-bottom: 1px solid gainsboro;
 
     background-color: var(--contact-card-background);
     cursor: pointer;
+}
+
+.contact-card:hover {
+    background-color: whitesmoke;
 }
 
 .contact-card>img {
