@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+if (empty($_SESSION["loggedIn"])) {
+    header("location:index.html");
+    exit();
+}
+
 if (!$_SERVER["REQUEST_METHOD"] == "POST") {
     header("location:contact.php");
     exit();
@@ -60,7 +66,7 @@ if (!empty($_FILES["image"]["name"])) {
 }
 
 if ($uploadOk == 1) {
-    $stmt = $baglanti->prepare('SELECT image_path FROM contacts WHERE contact_id = ?');
+    $stmt = $conn->prepare('SELECT image_path FROM contacts WHERE contact_id = ?');
     $stmt->bind_param('i', $contactId);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
@@ -70,19 +76,19 @@ if ($uploadOk == 1) {
         unlink($result["image_path"]);
     }
 
-    $stmt = $baglanti->prepare("UPDATE contacts 
+    $stmt = $conn->prepare("UPDATE contacts 
                                 SET name = ?, surname = ?, phone = ?, email = ?, address = ?, country = ?, city = ?, district = ?, image_path = ?
                                 WHERE contact_id = ?");
     $stmt->bind_param("sssssssssi", $name, $surname, $phone, $email, $address, $country, $city, $district, $new_image_path, $contactId);
 } else {
-    $stmt = $baglanti->prepare("UPDATE contacts 
+    $stmt = $conn->prepare("UPDATE contacts 
                                 SET name = ?, surname = ?, phone = ?, email = ?, address = ?, country = ?, city = ?, district = ?
                                 WHERE contact_id = ?");
     $stmt->bind_param("ssssssssi", $name, $surname, $phone, $email, $address, $country, $city, $district, $contactId);
 }
 $stmt->execute();
 $stmt->close();
-$baglanti->close();
+$conn->close();
 
 
 header("location: contact.php");

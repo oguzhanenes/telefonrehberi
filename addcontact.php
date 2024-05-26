@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (empty($_SESSION["loggedIn"])) {
+  header("location:login.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -24,19 +32,14 @@
           <li class="nav-item ms-2">
             <a href="contact.php" class="nav-link">Kayıtlı Kişiler</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Kişi İşlemleri
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="addcontact.php">Yeni Kişi Ekle</a></li>
-            </ul>
+          <li class="nav-item ms-2">
+            <a href="addcontact.php" class="nav-link">Yeni Kişi Ekle</a>
           </li>
         </ul>
         <div class="profile">
-          <span class="name">Ad Soyad</span>
+          <span class="name"><?php echo $_SESSION["username"] ?></span>
           <button class="exit-button">
-            <img src="img/box-arrow-right.svg">
+            <a href="logout.php"><img src="img/box-arrow-right.svg"></a>
           </button>
         </div>
       </div>

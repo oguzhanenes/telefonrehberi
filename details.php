@@ -1,13 +1,35 @@
 <?php
+
+session_start();
+if (empty($_SESSION["loggedIn"])) {
+    header("location:login.php");
+    exit();
+}
+
 require_once "conn.php";
 $id = $_GET["id"];
 
 // URL'de Id yoksa contact sayfasına döndür
 if (is_null($id)) header("location:contact.php");
 
-$sql = "SELECT * FROM contacts WHERE contact_id = $id";
+$sql = "SELECT * FROM contacts WHERE contact_id = ?";
 
-$result = $baglanti->query($sql)->fetch_assoc();
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Eger sonuc yoksa contact.php sayfasına dön
+if (mysqli_num_rows($result) == 0) {
+    header("location: contact.php");
+    exit();
+}
+
+$result = $result->fetch_assoc();
+
+$stmt->close();
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -36,19 +58,14 @@ $result = $baglanti->query($sql)->fetch_assoc();
                     <li class="nav-item ms-2">
                         <a href="contact.php" class="nav-link">Kayıtlı Kişiler</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Kişi İşlemleri
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="addcontact.php">Yeni Kişi Ekle</a></li>
-                        </ul>
+                    <li class="nav-item ms-2">
+                        <a href="addcontact.php" class="nav-link">Yeni Kişi Ekle</a>
                     </li>
                 </ul>
                 <div class="profile">
-                    <span class="name">Ad Soyad</span>
+                    <span class="name"><?php echo $_SESSION["username"] ?></span>
                     <button class="exit-button">
-                        <img src="img/box-arrow-right.svg">
+                        <a href="logout.php"><img src="img/box-arrow-right.svg"></a>
                     </button>
                 </div>
             </div>

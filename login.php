@@ -1,54 +1,57 @@
 <?php
-include 'conn.php';
 session_start();
 $usernameErr = $passwordErr = "";
-$username = $password = $loginErr ="";
+$username = $password = $loginErr = "";
 
+include 'conn.php';
 
+if (isset($_SESSION["loggedIn"])) {
+    header("location:contact.php");
+    exit();
+}
 
 if (isset($_POST["login"])) {
 
     if (empty($_POST["username"])) {
         $usernameErr = "Kullanıcı adı girin!";
     } else {
-        $username =$_POST["username"];
+        $username = $_POST["username"];
     }
 
     if (empty($_POST["password"])) {
         $passwordErr = "Şifre girin!";
     } else {
-        $password =$_POST["password"];
+        $password = $_POST["password"];
     }
 
-    if(empty($usernameErr) && empty($passwordErr)){
+    if (empty($usernameErr) && empty($passwordErr)) {
         $sql = "SELECT user_id,username, password from users WHERE username=?";
 
-        if($stmt = mysqli_prepare($conn,$sql)){
-            mysqli_stmt_bind_param($stmt,"s",$username);
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "s", $username);
 
 
-            if(mysqli_stmt_execute($stmt)){
+            if (mysqli_stmt_execute($stmt)) {
                 mysqli_stmt_store_result($stmt);
-                
-                if(mysqli_stmt_num_rows($stmt)==1)
-                {
-                    //parola kontrolü
-                    mysqli_stmt_bind_result($stmt, $user_id ,$username , $hashed_password);
-                    if(mysqli_stmt_fetch($stmt)){
-                        if(password_verify($password,$hashed_password)){
-                            $_SESSION["loggedIn"]=true;
-                            $_SESSION["user_id"]=$user_id;
-                            $_SESSION["username"]=$username;
 
-                            header("Location: contact.html");
-                        }else{
-                            $loginErr="parola hatalı";
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    //parola kontrolü
+                    mysqli_stmt_bind_result($stmt, $user_id, $username, $hashed_password);
+                    if (mysqli_stmt_fetch($stmt)) {
+                        if (password_verify($password, $hashed_password)) {
+                            $_SESSION["loggedIn"] = true;
+                            $_SESSION["user_id"] = $user_id;
+                            $_SESSION["username"] = $username;
+
+                            header("Location: contact.php");
+                        } else {
+                            $loginErr = "Parola hatalı";
                         }
                     }
-                }else{
-                    $loginErr ="kullanıcı adı hatalı";
+                } else {
+                    $loginErr = "Kullanıcı adı hatalı";
                 }
-            }else{
+            } else {
                 $loginErr = "Hata oluştu";
             }
         }
@@ -69,9 +72,7 @@ if (isset($_POST["login"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <title>Telefon Rehberi</title>
 </head>
@@ -111,10 +112,10 @@ if (isset($_POST["login"])) {
             <h1 class="display-4 fw-bold text-center mt-5">Giriş Ekranı</h1>
             <div class="pt-5 mt-2 px-4 border-bottom">
                 <div class="col-lg-6 mx-auto mb-4">
-                <?php
-                    if(!empty($loginErr)){
-                     echo "<div class='alert alert-danger'>".$loginErr."</div>";
-                    }?>
+                    <?php
+                    if (!empty($loginErr)) {
+                        echo "<div class='alert alert-danger'>" . $loginErr . "</div>";
+                    } ?>
                     <form action="login.php" method="post" class="row g-3">
                         <div class="col-12">
                             <label for="username" class="form-label">Kullanıcı Adı</label>
@@ -147,4 +148,4 @@ if (isset($_POST["login"])) {
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html> 
+</html>

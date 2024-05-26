@@ -1,7 +1,8 @@
 <?php
 include 'conn.php';
 
-function addUserToDatabase($conn, $username, $name, $surname, $email, $password) {
+function addUserToDatabase($conn, $username, $name, $surname, $email, $password)
+{
     // SQL INSERT sorgusunu hazırlayın
     $sql = "INSERT INTO users (username, name, surname, email, password) VALUES ('$username', '$name', '$surname', '$email', '$password')";
 
@@ -53,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Hata olmadığında kullanıcıyı veritabanına ekle
     if (empty($usernameErr) && empty($nameErr) && empty($surnameErr) && empty($emailErr) && empty($passwordErr)) {
-        addUserToDatabase($conn, $username, $name, $surname, $email, $password); // $conn, $username, $name, $surname, $email, $password değişkenlerini kullanarak fonksiyonu çağırın
+        addUserToDatabase($conn, $username, $name, $surname, $email, password_hash($password, PASSWORD_DEFAULT)); // $conn, $username, $name, $surname, $email, $password değişkenlerini kullanarak fonksiyonu çağırın
     }
 }
 ?>
@@ -68,9 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <title>Telefon Rehberi</title>
 </head>

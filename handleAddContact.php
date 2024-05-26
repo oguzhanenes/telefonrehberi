@@ -1,13 +1,18 @@
 <?php
 
+session_start();
+if (empty($_SESSION["loggedIn"])) {
+    header("location:index.html");
+    exit();
+}
+
 if (!$_SERVER["REQUEST_METHOD"] == "POST") {
     header("location: contact.php");
     exit();
 }
 
 require_once "conn.php";
-// $user_id = $_SESSION["user_id"];
-$user_id = 1;
+$user_id = $_SESSION["user_id"];
 $name = $_POST["name"];
 $surname = $_POST["surname"];
 $email = $_POST["email"];
@@ -69,7 +74,11 @@ if (!empty($_FILES["image"]["name"])) {
 
 
 $sql = "INSERT INTO contacts (user_id, name, surname, phone, email, address, city, district, country, image_path)
-            VALUES ($user_id, '$name', '$surname', '$phone', '$email', '$address', '$city', '$district', '$country', '$new_image_path')";
-$baglanti->query($sql);
-$baglanti->close();
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("isssssssss", $user_id, $name, $surname, $phone, $email, $address, $city, $district, $country, $new_image_path);
+$stmt->execute();
+$stmt->close();
+$conn->close();
 header("location: contact.php");
