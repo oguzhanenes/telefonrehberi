@@ -1,15 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="3;url=login.php"> 
+    <meta http-equiv="refresh" content="3;url=login.php">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <title>Telefon Rehberi</title>
 </head>
@@ -31,9 +28,6 @@
                     <li class="nav-item ms-2">
                         <a href="info.html" class="nav-link">Hakkımızda</a>
                     </li>
-                    <li class="nav-item ms-2">
-                        <a href="#" class="nav-link">İletişim</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -46,8 +40,8 @@
             <h1 class="display-4 fw-bold text-center mt-5">Giriş Ekranı</h1>
             <div class="pt-5 mt-2 px-4 border-bottom">
                 <div class="col-lg-6 mx-auto mb-4">
-                <h1>Giriş Başarılı</h1>
-                <p>Başarıyla giriş yapıldı.Lütfen bekleyin veya <a href="contact.php">buraya</a> tıklayın.</p>
+                    <h1>Giriş Başarılı</h1>
+                    <p>Başarıyla giriş yapıldı.Lütfen bekleyin veya <a href="contact.php">buraya</a> tıklayın.</p>
                 </div>
             </div>
         </section>

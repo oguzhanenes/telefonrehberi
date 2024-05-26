@@ -92,10 +92,7 @@ if (isset($_POST["login"])) {
                         <a href="index.html" class="nav-link">Anasayfa</a>
                     </li>
                     <li class="nav-item ms-2">
-                        <a href="#" class="nav-link">Hakkımızda</a>
-                    </li>
-                    <li class="nav-item ms-2">
-                        <a href="#" class="nav-link">İletişim</a>
+                        <a href="info.html" class="nav-link">Hakkımızda</a>
                     </li>
                 </ul>
                 <form class="d-flex">
