@@ -1,3 +1,12 @@
+:root {
+    --background-color: whitesmoke;
+    --contact-card-background: white;
+}
+
+body {
+    height: 100vh;
+}
+
 /* index */
 
 .navbar {
@@ -19,3 +28,104 @@
 
 
 /* register */
+.profile {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exit-button {
+    display: flex;
+    align-items: center;
+
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+}
+
+.content {
+    background-color: var(--background-color);
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    width: 100%;
+    height: 70px;
+    padding: 0 20px 0 20px;
+    border-radius: 6px;
+
+    background-color: var(--contact-card-background);
+    cursor: pointer;
+}
+
+.contact-card>img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.group-tag-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    width: auto;
+    border: 1px solid black;
+    border-radius: 12px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.group-tag-holder>span {
+    /* padding: 5px 10px 5px 10px; */
+
+    font-size: 14px;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.buttons>* {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+
+    background-color: transparent;
+}
+
+.buttons img {
+    height: 20px;
+}
+
+.buttons>*:hover {
+    background-color: gainsboro;
+}
+
+.form>img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
